@@ -182,7 +182,7 @@ class UnitController {
 
 
   async addManagementContracts({ params, request, response, view }) {
-    Logger.info("Add SelectionApproval");
+    Logger.info("Add Management Contracts");
     try {
       const data = request.all();
 
@@ -194,7 +194,7 @@ class UnitController {
       Logger.error(error)
       return response.status(error.status).json({
         error: {
-          message: "Error when Create Selection Approval",
+          message: "Error when Create Management Contracts",
           error: error.message
         }
       })
@@ -215,7 +215,7 @@ class UnitController {
       Logger.error(error)
       return response.status(error.status).json({
         error: {
-          message: "Error when Create Selection Approval",
+          message: "Error when Create Selective Proccess",
           error: error.message
         }
       })
@@ -235,7 +235,7 @@ class UnitController {
       Logger.error(error)
       return response.status(error.status).json({
         error: {
-          message: "Error when Create Selection Approval",
+          message: "Error when Create People",
           error: error.message
         }
       })
