@@ -27,6 +27,7 @@ Route.get('/units', 'UnitController.index')
 
 Route.post('/units', 'UnitController.create')
 Route.get('/units/:id', 'UnitController.show')
+Route.post('/units/:id/update', 'UnitController.update')
 Route.post('/units/:id/adm_structure', 'UnitController.addAdmStruture')
 Route.post('/units/:id/contacts', 'UnitController.addContacts')
 Route.post('/units/:id/selection_approval', 'UnitController.addSelectionApproval')

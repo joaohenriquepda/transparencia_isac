@@ -4,15 +4,7 @@ const Logger = use('Logger')
 const Unit = use('App/Models/Unit')
 
 class UnitController {
-  /**
-   * Show a list of all units.
-   * GET units
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
+
   async index({ request, response, view }) {
 
     Logger.info("Show All units");
@@ -49,7 +41,29 @@ class UnitController {
         }
       })
     }
+  }
 
+  async update({ request, response, params }) {
+
+    Logger.info("Update Unit");
+    try {
+
+      const data = request.all();
+      const unit = await Unit.find(params.id);
+      await unit.merge(data);
+      await unit.save();
+
+      return unit
+
+    } catch (error) {
+      Logger.error(error)
+      return response.status(error.status).json({
+        error: {
+          message: "Error when UPDATE Unit",
+          error: error.message
+        }
+      })
+    }
   }
 
   async show({ params, request, response, view }) {
@@ -321,20 +335,6 @@ class UnitController {
         }
       })
     }
-  }
-
-
-
-
-  /**
-   * Update unit details.
-   * PUT or PATCH units/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update({ params, request, response }) {
   }
 
   /**
