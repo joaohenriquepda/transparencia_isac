@@ -43,11 +43,9 @@ Route.post('/units/:id/accounting_doc', 'UnitController.addAccountingDoc')
 Route.put('/adm_structure/:id', 'AdmStructureController.update')
 Route.delete('/adm_structure/:id', 'AdmStructureController.delete')
 
-
 // Accountability
 Route.put('/accountability/:id', 'AccountabilityStructureController.update')
 Route.delete('/accountability/:id', 'AccountabilityController.delete')
-
 
 // AccountingDocs
 Route.put('/accounting_doc/:id', 'AccountingDocController.update')
@@ -57,9 +55,13 @@ Route.delete('/accounting_doc/:id', 'AccountingDocController.delete')
 Route.put('/contact/:id', 'ContactController.update')
 Route.delete('/contact/:id', 'ContactController.delete')
 
-// 
+// Management Contract
 Route.put('/management_contract/:id', 'ManagementContractController.update')
 Route.delete('//:id', 'Controller.delete')
+
+// MatMed
+Route.put('/mat_med/:id', 'MatMedController.update')
+Route.delete('/mat_med/:id', 'MatMedController.delete')
 
 // 
 Route.put('//:id', 'Controller.update')
