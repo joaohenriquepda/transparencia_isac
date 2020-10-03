@@ -75,6 +75,10 @@ Route.delete('//:id', 'PublicCallController.delete')
 Route.put('/selection_approval/:id', 'SelectionApprovalController.update')
 Route.delete('/selection_approval/:id', 'SelectionApprovalController.delete')
 
+// Selective Proccess
+Route.put('/selective_proccess/:id', 'SelectiveProccessController.update')
+Route.delete('/selective_proccess/:id', 'SelectiveProccessController.delete')
+
 // 
 Route.put('//:id', 'Controller.update')
 Route.delete('//:id', 'Controller.delete')
