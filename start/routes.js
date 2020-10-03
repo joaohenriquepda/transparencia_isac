@@ -27,12 +27,10 @@ Route.get('/units', 'UnitController.index')
 
 Route.post('/units', 'UnitController.create')
 Route.get('/units/:id', 'UnitController.show')
-Route.post('/units/:id/update', 'UnitController.update')
+Route.put('/units/:id', 'UnitController.update')
 Route.post('/units/:id/adm_structure', 'UnitController.addAdmStruture')
 Route.post('/units/:id/contacts', 'UnitController.addContacts')
 Route.post('/units/:id/selection_approval', 'UnitController.addSelectionApproval')
-
-
 Route.post('/units/:id/management_contracts', 'UnitController.addManagementContracts')
 Route.post('/units/:id/selective_proccess', 'UnitController.addSelectiveProccess')
 Route.post('/units/:id/people', 'UnitController.addPeople')
@@ -40,3 +38,22 @@ Route.post('/units/:id/server', 'UnitController.addServer')
 Route.post('/units/:id/mat_med', 'UnitController.addMatMed')
 Route.post('/units/:id/accountability', 'UnitController.addAccountability')
 Route.post('/units/:id/accounting_doc', 'UnitController.addAccountingDoc')
+
+// Administrative Structure
+Route.put('/adm_structure/:id', 'AdmStructureController.update')
+Route.delete('/adm_structure/:id', 'AdmStructureController.delete')
+
+
+// Accountability
+Route.put('/accountability/:id', 'AccountabilityStructureController.update')
+Route.delete('/accountability/:id', 'AccountabilityController.delete')
+
+
+// AccountingDocs
+Route.put('/accounting_doc/:id', 'AccountingDoc.update')
+Route.delete('/accounting_doc/:id', 'AccountingDoc.delete')
+
+
+// 
+Route.put('//:id', '.update')
+Route.delete('//:id', '.delete')
