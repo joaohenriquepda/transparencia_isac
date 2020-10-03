@@ -50,10 +50,13 @@ Route.delete('/accountability/:id', 'AccountabilityController.delete')
 
 
 // AccountingDocs
-Route.put('/accounting_doc/:id', 'AccountingDoc.update')
-Route.delete('/accounting_doc/:id', 'AccountingDoc.delete')
-
+Route.put('/accounting_doc/:id', 'AccountingDocController.update')
+Route.delete('/accounting_doc/:id', 'AccountingDocController.delete')
 
 // 
-Route.put('//:id', '.update')
-Route.delete('//:id', '.delete')
+Route.put('/contact/:id', 'ContactController.update')
+Route.delete('/contact/:id', 'ContactController.delete')
+
+// 
+Route.put('//:id', 'Controller.update')
+Route.delete('//:id', 'Controller.delete')
