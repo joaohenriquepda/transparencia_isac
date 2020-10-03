@@ -67,6 +67,10 @@ Route.delete('/mat_med/:id', 'MatMedController.delete')
 Route.put('/person/:id', 'PersonController.update')
 Route.delete('/person/:id', 'PersonController.delete')
 
+// PublicCall
+Route.put('/public_call/:id', 'PublicCallController.update')
+Route.delete('//:id', 'Controller.delete')
+
 // 
 Route.put('//:id', 'Controller.update')
 Route.delete('//:id', 'Controller.delete')
