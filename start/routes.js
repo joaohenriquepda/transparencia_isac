@@ -53,9 +53,13 @@ Route.delete('/accountability/:id', 'AccountabilityController.delete')
 Route.put('/accounting_doc/:id', 'AccountingDocController.update')
 Route.delete('/accounting_doc/:id', 'AccountingDocController.delete')
 
-// 
+// Contract
 Route.put('/contact/:id', 'ContactController.update')
 Route.delete('/contact/:id', 'ContactController.delete')
+
+// 
+Route.put('/management_contract/:id', 'ManagementContractController.update')
+Route.delete('//:id', 'Controller.delete')
 
 // 
 Route.put('//:id', 'Controller.update')
