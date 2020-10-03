@@ -69,7 +69,11 @@ Route.delete('/person/:id', 'PersonController.delete')
 
 // PublicCall
 Route.put('/public_call/:id', 'PublicCallController.update')
-Route.delete('//:id', 'Controller.delete')
+Route.delete('//:id', 'PublicCallController.delete')
+
+// Selection Approval
+Route.put('/selection_approval/:id', 'SelectionApprovalController.update')
+Route.delete('/selection_approval/:id', 'SelectionApprovalController.delete')
 
 // 
 Route.put('//:id', 'Controller.update')
