@@ -63,6 +63,10 @@ Route.delete('//:id', 'Controller.delete')
 Route.put('/mat_med/:id', 'MatMedController.update')
 Route.delete('/mat_med/:id', 'MatMedController.delete')
 
+// Person
+Route.put('/person/:id', 'PersonController.update')
+Route.delete('/person/:id', 'PersonController.delete')
+
 // 
 Route.put('//:id', 'Controller.update')
 Route.delete('//:id', 'Controller.delete')
