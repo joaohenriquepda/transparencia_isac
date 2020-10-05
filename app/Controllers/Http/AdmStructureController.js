@@ -35,7 +35,7 @@ class AdmStructureController {
         Logger.info("Destroy Administrative Struture");
         try {
 
-            const adm_structure = await AdmStruture.find(params.id);
+            const adm_structure = await AdmStructure.find(params.id);
             await adm_structure.delete();
 
             return response.status(200).json({

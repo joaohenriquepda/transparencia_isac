@@ -3,9 +3,9 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class AdmStrutureSchema extends Schema {
+class AdmStructureSchema extends Schema {
   up () {
-    this.create('adm_strutures', (table) => {
+    this.create('adm_structures', (table) => {
       table.string('office')
       table.string('name')
       table.string('email')
@@ -21,4 +21,4 @@ class AdmStrutureSchema extends Schema {
   }
 }
 
-module.exports = AdmStrutureSchema
+module.exports = AdmStructureSchema

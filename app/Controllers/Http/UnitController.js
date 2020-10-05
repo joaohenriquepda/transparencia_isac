@@ -71,29 +71,17 @@ class UnitController {
     try {
       // const data = request.all();
       const unit = await Unit.find(params.id);
-      const adm_struture = await unit.adm_struture().fetch();
-      const contacts = await unit.contacts().fetch();
-      const public_call = await unit.public_call().fetch();
-      const selection_approval = await unit.selection_approval().fetch()
-      const management_contracts = await unit.management_contracts().fetch()
-      const selective_proccess = await unit.selective_proccess().fetch()
-      const people = await unit.people().fetch()
-      const servers = await unit.servers().fetch()
-      const mat_med = await unit.mat_med().fetch()
-      const accountability = await unit.accountability().fetch()
-      const accounting_docs = await unit.accounting_docs().fetch()
-
-      unit.adm_struture = adm_struture;
-      unit.contacts = contacts;
-      unit.public_call = public_call;
-      unit.selection_approval = selection_approval
-      unit.management_contracts = management_contracts
-      unit.selective_proccess = selective_proccess
-      unit.people = people
-      unit.servers = servers
-      unit.mat_med = mat_med
-      unit.accountability = accountability
-      unit.accounting_docs = accounting_docs
+      unit.adm_structure = await unit.adm_structure().fetch();
+      unit.contacts = await unit.contacts().fetch();
+      unit.public_call = await unit.public_call().fetch();
+      unit.selection_approval = await unit.selection_approval().fetch()
+      unit.management_contracts = await unit.management_contracts().fetch()
+      unit.selective_proccess = await unit.selective_proccess().fetch()
+      unit.people = await unit.people().fetch()
+      unit.servers = await unit.servers().fetch()
+      unit.mat_med = await unit.mat_med().fetch()
+      unit.accountability = await unit.accountability().fetch()
+      unit.accounting_docs = await unit.accounting_docs().fetch()
 
       return unit
 
@@ -108,13 +96,13 @@ class UnitController {
     }
   }
 
-  async addAdmStruture({ params, request, response, view }) {
+  async addAdmStructure({ params, request, response, view }) {
     Logger.info("Add Administrative Struture");
     try {
       const data = request.all();
 
       const unit = await Unit.find(params.id);
-      unit.adm_struture().create(data);
+      unit.adm_structure().create(data);
 
       return unit;
 
@@ -345,8 +333,44 @@ class UnitController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, request, response }) {
+  async delete({ params, request, response }) {
+
+    Logger.info("Destroy Unit");
+    try {
+
+      const unit = await Unit.find(params.id);
+
+      await unit.adm_structure().delete();
+      await unit.adm_struture().delete();
+      await unit.contacts().delete();
+      await unit.public_call().delete();
+      await unit.selection_approval().delete();
+      await unit.selection_approval().delete();
+      await unit.management_contracts().delete();
+      await unit.selective_proccess().delete();
+      await unit.people().delete();
+      await unit.servers().delete();
+      await unit.mat_med().delete();
+      await unit.accountability().delete();
+      await unit.accounting_docs().delete();
+
+      await unit.delete();
+
+      return response.status(200).json({
+        message: "Success",
+      })
+
+    } catch (error) {
+      Logger.error(error)
+      return response.status(error.status).json({
+        error: {
+          message: "Error Destroy Unit",
+          error: error.message
+        }
+      })
+    }
   }
 }
+
 
 module.exports = UnitController

@@ -4,9 +4,14 @@
 const Model = use('Model')
 
 class Unit extends Model {
+    adm_structure() {
+        return this.hasMany('App/Models/AdmStructure')
+    }
+
     adm_struture() {
         return this.hasMany('App/Models/AdmStruture')
     }
+
 
     contacts() {
         return this.hasMany('App/Models/Contact')
