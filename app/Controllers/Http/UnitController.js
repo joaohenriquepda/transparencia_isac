@@ -341,7 +341,6 @@ class UnitController {
       const unit = await Unit.find(params.id);
 
       await unit.adm_structure().delete();
-      await unit.adm_struture().delete();
       await unit.contacts().delete();
       await unit.public_call().delete();
       await unit.selection_approval().delete();
