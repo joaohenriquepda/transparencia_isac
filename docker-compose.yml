@@ -22,7 +22,7 @@ services:
     ports:
       - 5432:5432  
     environment:
-      - POSTGRES_TEST_DATABASES=isac-tranparencia-api
-      - POSTGRES_USER=isac-tranparencia-api
-      - POSTGRES_PASSWORD=isac-tranparencia-api
-      - PG_PASSWORD=isac-tranparencia-api
+      - POSTGRES_TEST_DATABASES=isac-transparencia-api
+      - POSTGRES_USER=isac-transparencia-api
+      - POSTGRES_PASSWORD=isac-transparencia-api
+      - PG_PASSWORD=isac-transparencia-api

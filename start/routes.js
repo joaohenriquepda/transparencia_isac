@@ -22,6 +22,12 @@ Route.get('/', () => {
 
 // Route.post('/sessions', 'SessionController.create')
 
+// Users Routes
+Route.post('/users', 'UserController.create')
+Route.get('/users/:id', 'UserController.show')
+Route.put('/users', 'UserController.update')
+Route.delete('/users', 'UserController.delete')
+
 //Unico que não vai precisar de autenticação
 Route.get('/units', 'UnitController.index')
 
