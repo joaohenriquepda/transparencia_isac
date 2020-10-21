@@ -20,7 +20,7 @@ Route.get('/', () => {
   return { greeting: 'Bem Vindo ao Portal de transparência' }
 })
 
-Route.post('/sessions', 'SessionController.create')
+Route.post('/login', 'SessionController.create')
 
 // Users Routes
 Route.post('/users', 'UserController.create')
