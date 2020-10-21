@@ -20,13 +20,13 @@ Route.get('/', () => {
   return { greeting: 'Bem Vindo ao Portal de transparência' }
 })
 
-// Route.post('/sessions', 'SessionController.create')
+Route.post('/sessions', 'SessionController.create')
 
 // Users Routes
 Route.post('/users', 'UserController.create')
 Route.get('/users/:id', 'UserController.show')
-Route.put('/users', 'UserController.update')
-Route.delete('/users', 'UserController.delete')
+Route.put('/users/:id', 'UserController.update')
+Route.delete('/users/:id', 'UserController.delete')
 
 //Unico que não vai precisar de autenticação
 Route.get('/units', 'UnitController.index')

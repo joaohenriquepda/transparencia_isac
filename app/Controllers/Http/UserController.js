@@ -70,6 +70,26 @@ class UserController {
         }
     }
 
+    async delete({ response, params }) {
+
+        Logger.info('Remove user');
+
+        try {
+            await auth.check();
+            const user = await User.find(params.id);
+            await user.delete()
+
+        } catch (error) {
+            Logger.error(error)
+            return response.status(error.status).json({
+                error: {
+                    message: "Error when Remove User",
+                    error: error.message
+                }
+            })
+        }
+    }
+
 
 }
 
