@@ -1,7 +1,10 @@
 'use strict'
 
+const crypto = require('crypto'); // crypto
 const Logger = use('Logger')
 const User = use('App/Models/User')
+
+const Mail = use('Mail')
 
 class UserController {
 
@@ -90,6 +93,37 @@ class UserController {
         }
     }
 
+    async recoveryPassword({ auth, response, request, params }) {
+
+        Logger.info("Recovery Password")
+
+        try {
+            const data = request.all()
+            const user = await User.findByOrFail("email", data.email);
+            const password = await crypto.randomBytes(10).toString('hex')
+            user.password = password;
+    
+            console.log(password);
+            await user.merge({ "password": password })
+            await user.save()
+
+            await Mail.send('emails.recovery', { user, password }, (message) => {
+              message.to(user.email)
+              message.from('contato@isac.org.br')
+              message.subject('Recuperação de senha')
+            })
+
+
+        } catch (error) {
+            Logger.error(error)
+            return response.status(error.status).json({
+                error: {
+                    message: "Error when Update User",
+                    error: error.message
+                }
+            })
+        }
+    }
 
 }
 

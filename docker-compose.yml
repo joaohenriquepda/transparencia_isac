@@ -26,3 +26,9 @@ services:
       - POSTGRES_USER=isac-transparencia-api
       - POSTGRES_PASSWORD=isac-transparencia-api
       - PG_PASSWORD=isac-transparencia-api
+  mailcatcher:
+    restart: on-failure:10
+    image: dockage/mailcatcher:0.7.1
+    ports:
+      - "1080:1080"
+      - "1025:1025"      
