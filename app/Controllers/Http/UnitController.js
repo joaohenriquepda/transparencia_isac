@@ -22,11 +22,11 @@ class UnitController {
     }
   }
 
-  async create({ request, response, view }) {
+  async create({ request, response, view, auth }) {
 
     Logger.info("Create new Unit");
     try {
-
+      await auth.check();
       const data = request.all();
       const unit = await Unit.create(data);
 

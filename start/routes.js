@@ -34,7 +34,7 @@ Route.post('/users/recovery', 'UserController.recoveryPassword')
 //Unico que não vai precisar de autenticação
 Route.get('/units', 'UnitController.index')
 
-Route.post('/units', 'UnitController.create')
+Route.post('/units', 'UnitController.create').middleware(['auth:jwt'])
 Route.get('/units/:id', 'UnitController.show')
 Route.delete('/units/:id', 'UnitController.delete')
 Route.put('/units/:id', 'UnitController.update')
