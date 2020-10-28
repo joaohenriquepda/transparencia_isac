@@ -22,6 +22,8 @@ Route.get('/', () => {
 
 Route.post('/login', 'SessionController.create')
 
+Route.get('/log_actions', 'LogActionController.all')
+
 // Users Routes
 Route.post('/users', 'UserController.create')
 Route.get('/users/:id', 'UserController.show')

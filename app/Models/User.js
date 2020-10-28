@@ -36,6 +36,10 @@ class User extends Model {
     return this.belongsTo('App/Models/Unit')
   }
 
+  logActions() {
+    return this.hasMany('App/Models/LogAction')
+  }
+
   tokens() {
     return this.hasMany('App/Models/Token')
   }

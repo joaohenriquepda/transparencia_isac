@@ -3,7 +3,7 @@
 const crypto = require('crypto'); // crypto
 const Logger = use('Logger')
 const User = use('App/Models/User')
-
+const LogAction = use('App/Models/LogAction')
 const Mail = use('Mail')
 
 class UserController {
@@ -96,6 +96,7 @@ class UserController {
     async recoveryPassword({ auth, response, request, params }) {
 
         Logger.info("Recovery Password")
+        LogAction.create()
 
         try {
             const data = request.all()
