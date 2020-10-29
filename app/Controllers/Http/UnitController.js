@@ -2,6 +2,7 @@
 
 const Logger = use('Logger')
 const Unit = use('App/Models/Unit')
+const LogAction = use('App/Models/LogAction')
 
 class UnitController {
 
@@ -10,19 +11,20 @@ class UnitController {
     Logger.info("Show All units");
     try {
       return await Unit.all();
+      // LogAction.create({ description: "", location: "", user_id: "", ip: ""})
 
     } catch (error) {
       Logger.error(error)
       return response.status(error.status).json({
         error: {
-          message: "Error when Create Unit",
+          message: "Error when Show All Units",
           error: error.message
         }
       })
     }
   }
 
-  async create({ request, response, view, auth }) {
+  async create({ request, response, auth }) {
 
     Logger.info("Create new Unit");
     try {
@@ -48,6 +50,7 @@ class UnitController {
     Logger.info("Update Unit");
     try {
 
+      await auth.check();
       const data = request.all();
       const unit = await Unit.find(params.id);
       await unit.merge(data);

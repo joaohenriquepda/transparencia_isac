@@ -6,12 +6,13 @@ const Model = use('Model')
 class LogAction extends Model {
 
     user() {
-        return this.hasOne('App/Models/LogAction')
+        return this.belongsTo('App/Models/User')
     }
 
 
     registerAction() {
         return console.log("_+_+_+_+_+_+_+_+_+_");
+
     }
 
 }

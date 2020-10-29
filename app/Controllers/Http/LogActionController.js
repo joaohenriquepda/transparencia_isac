@@ -11,8 +11,7 @@ class LogActionController {
         try {
             // await auth.check();
             // const user = await User.find(params.id);
-
-            return await LogAction.all();
+            return await LogAction.query().with('user').orderBy('id', 'desc').fetch();
         } catch (error) {
             Logger.error(error)
             return response.status(error.status).json({

@@ -92,6 +92,31 @@ class UserController {
             })
         }
     }
+    async showActions({ auth, response, request, params }) {
+
+        Logger.info("Show actions")
+
+        try {
+            // await auth.check();
+            var user = await User.findByOrFail({id: params.id});
+            return user.logActions().fetch();
+
+        } catch (error) {
+            Logger.error(error)
+            // const data = request.all()
+            // LogAction.create({
+            //     description: `O email ${data.email} não conseguiu recuperar a senha ${error.message}`,
+            //     location: "",
+            //     ip: "192.0.0.1"
+            // })
+            return response.status(error.status).json({
+                error: {
+                    message: "Error when show actions",
+                    error: error.message
+                }
+            })
+        }
+    }
 
     async recoveryPassword({ auth, response, request, params }) {
 
@@ -100,23 +125,32 @@ class UserController {
 
         try {
             const data = request.all()
+
+            LogAction.create({ description: `O email ${data.email} acessou para recuperar a senha`, location: "", ip: "192.0.0.1" })
             const user = await User.findByOrFail("email", data.email);
             const password = await crypto.randomBytes(10).toString('hex')
             user.password = password;
-    
+
             console.log(password);
             await user.merge({ "password": password })
             await user.save()
 
             await Mail.send('emails.recovery', { user, password }, (message) => {
-              message.to(user.email)
-              message.from('contato@isac.org.br')
-              message.subject('Recuperação de senha')
+                message.to(user.email)
+                message.from('contato@isac.org.br')
+                message.subject('Recuperação de senha')
             })
 
+            LogAction.create({ description: `O email ${data.email} recebeu o email com nova senha`, location: "", ip: "192.0.0.1" })
 
         } catch (error) {
             Logger.error(error)
+            const data = request.all()
+            LogAction.create({
+                description: `O email ${data.email} não conseguiu recuperar a senha ${error.message}`,
+                location: "",
+                ip: "192.0.0.1"
+            })
             return response.status(error.status).json({
                 error: {
                     message: "Error when Update User",

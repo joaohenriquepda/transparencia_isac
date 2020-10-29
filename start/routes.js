@@ -30,6 +30,7 @@ Route.get('/users/:id', 'UserController.show')
 Route.put('/users/:id', 'UserController.update')
 Route.delete('/users/:id', 'UserController.delete')
 Route.post('/users/recovery', 'UserController.recoveryPassword')
+Route.get('/users/:id/actions/', 'UserController.showActions')
 
 //Unico que não vai precisar de autenticação
 Route.get('/units', 'UnitController.index')
@@ -89,6 +90,6 @@ Route.delete('/selection_approval/:id', 'SelectionApprovalController.delete')
 Route.put('/selective_proccess/:id', 'SelectiveProccessController.update')
 Route.delete('/selective_proccess/:id', 'SelectiveProccessController.delete')
 
-// 
-Route.put('//:id', 'Controller.update')
-Route.delete('//:id', 'Controller.delete')
+// // 
+// Route.put('//:id', 'Controller.update')
+// Route.delete('//:id', 'Controller.delete')
