@@ -5,9 +5,30 @@ const Logger = use('Logger')
 const User = use('App/Models/User')
 const LogAction = use('App/Models/LogAction')
 const Mail = use('Mail')
+const Database = use('Database')
 
 class UserController {
 
+
+    async all({ auth, response }) {
+        Logger.info('Return all users');
+        try {
+          await auth.check();
+          let sqlCommand = "SELECT * FROM users ORDER BY name ASC"
+          const users = await Database.raw(sqlCommand);
+    
+          return users.rows;
+        } catch (error) {
+          Logger.error(error)
+          return response.status(error.status).json({
+            error: {
+              message: "Error when Get all Users",
+              error: error.message
+            }
+          })
+        }
+      }
+    
 
     async create({ request, response }) {
 
