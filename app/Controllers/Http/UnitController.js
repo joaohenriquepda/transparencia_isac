@@ -45,7 +45,7 @@ class UnitController {
     }
   }
 
-  async update({ request, response, params }) {
+  async update({ request, response, params, auth }) {
 
     Logger.info("Update Unit");
     try {
