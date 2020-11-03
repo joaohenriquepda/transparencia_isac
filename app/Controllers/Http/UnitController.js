@@ -29,10 +29,25 @@ class UnitController {
     Logger.info("Create new Unit");
     try {
       await auth.check();
+      LogAction.create({
+        description: `Solicitou Criação de unidade`,
+        location: "",
+        ip: "192.0.0.1",
+        user_id: auth.id
+      })
+
       const data = request.all();
       const unit = await Unit.create(data);
 
+      LogAction.create({
+        description: `Criou a ${unit.name} com sucesso`,
+        location: "",
+        ip: "192.0.0.1",
+        user_id: auth.id
+      })
+
       return unit
+
 
     } catch (error) {
       Logger.error(error)
@@ -52,14 +67,37 @@ class UnitController {
 
       await auth.check();
       const data = request.all();
+
+      LogAction.create({
+        description: `Solicitou Update de unidade`,
+        location: "",
+        ip: "192.0.0.1",
+        user_id: auth.id
+      })
+
       const unit = await Unit.find(params.id);
+
       await unit.merge(data);
       await unit.save();
+
+      LogAction.create({
+        description: `Realizou atualização na unidade ${unit.name}`,
+        location: "",
+        ip: "192.0.0.1",
+        user_id: auth.id
+      })
 
       return unit
 
     } catch (error) {
       Logger.error(error)
+
+      LogAction.create({
+        description: `O Sistema encontrou um error ${error.message}`,
+        location: "",
+        ip: "192.0.0.1"
+      })
+
       return response.status(error.status).json({
         error: {
           message: "Error when UPDATE Unit",
