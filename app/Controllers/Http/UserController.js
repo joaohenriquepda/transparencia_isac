@@ -9,33 +9,36 @@ const Database = use('Database')
 
 class UserController {
 
-
     async all({ auth, response }) {
         Logger.info('Return all users');
         try {
-          await auth.check();
-          let sqlCommand = "SELECT * FROM users ORDER BY name ASC"
-          const users = await Database.raw(sqlCommand);
-    
-          return users.rows;
-        } catch (error) {
-          Logger.error(error)
-          return response.status(error.status).json({
-            error: {
-              message: "Error when Get all Users",
-              error: error.message
-            }
-          })
-        }
-      }
-    
+            await auth.check();
+            let sqlCommand = "SELECT * FROM users ORDER BY name ASC"
+            const users = await Database.raw(sqlCommand);
 
-    async create({ request, response }) {
+            return users.rows;
+        } catch (error) {
+            Logger.error(error)
+            let status = error.status;
+            if (status === undefined) {
+                status = 500
+            }
+
+            return response.status(status).json({
+                message: error,
+                status: status
+            });
+        }
+    }
+
+
+    async create({ request, response, auth }) {
 
         Logger.info('Create new user');
 
         try {
             const data = request.all();
+
             console.log(data);
 
             const user = await User.create(data)
@@ -43,13 +46,17 @@ class UserController {
             return user;
 
         } catch (error) {
-            Logger.error(error)
-            return response.status(error.status).json({
-                error: {
-                    message: "Error when Create User",
-                    error: error.message
-                }
-            })
+
+            console.log(error);
+            let status = error.status;
+            if (status === undefined) {
+                status = 500
+            }
+
+            return response.status(status).json({
+                message: error,
+                status: status
+            });
         }
     }
 
@@ -62,12 +69,15 @@ class UserController {
             return user;
         } catch (error) {
             Logger.error(error)
-            return response.status(error.status).json({
-                error: {
-                    message: "Error when Get Specific User",
-                    error: error.message
-                }
-            })
+            let status = error.status;
+            if (status === undefined) {
+                status = 500
+            }
+
+            return response.status(status).json({
+                message: error,
+                status: status
+            });
         }
     }
 
@@ -85,12 +95,16 @@ class UserController {
             user.save();
         } catch (error) {
             Logger.error(error)
-            return response.status(error.status).json({
-                error: {
-                    message: "Error when Update User",
-                    error: error.message
-                }
-            })
+
+            let status = error.status;
+            if (status === undefined) {
+                status = 500
+            }
+
+            return response.status(status).json({
+                message: error,
+                status: status
+            });
         }
     }
 
@@ -105,12 +119,15 @@ class UserController {
 
         } catch (error) {
             Logger.error(error)
-            return response.status(error.status).json({
-                error: {
-                    message: "Error when Remove User",
-                    error: error.message
-                }
-            })
+            let status = error.status;
+            if (status === undefined) {
+                status = 500
+            }
+
+            return response.status(status).json({
+                message: error,
+                status: status
+            });
         }
     }
     async showActions({ auth, response, request, params }) {
@@ -119,7 +136,7 @@ class UserController {
 
         try {
             // await auth.check();
-            var user = await User.findByOrFail({id: params.id});
+            var user = await User.findByOrFail({ id: params.id });
             return user.logActions().fetch();
 
         } catch (error) {
@@ -130,12 +147,15 @@ class UserController {
             //     location: "",
             //     ip: "192.0.0.1"
             // })
-            return response.status(error.status).json({
-                error: {
-                    message: "Error when show actions",
-                    error: error.message
-                }
-            })
+            let status = error.status;
+            if (status === undefined) {
+                status = 500
+            }
+
+            return response.status(status).json({
+                message: error,
+                status: status
+            });
         }
     }
 
@@ -172,12 +192,15 @@ class UserController {
                 location: "",
                 ip: "192.0.0.1"
             })
-            return response.status(error.status).json({
-                error: {
-                    message: "Error when Update User",
-                    error: error.message
-                }
-            })
+            let status = error.status;
+            if (status === undefined) {
+                status = 500
+            }
+
+            return response.status(status).json({
+                message: error,
+                status: status
+            });
         }
     }
 
