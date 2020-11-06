@@ -38,12 +38,16 @@ class SessionController {
                 location: "",
                 ip: "192.0.0.1"
             })
-            return response.status(error.status).json({
-                error: {
-                    message: "Error when try login",
-                    error: error.message
-                }
-            })
+            Logger.error(error)
+            let status = error.status;
+            if (status === undefined) {
+                status = 500
+            }
+
+            return response.status(status).json({
+                message: error,
+                status: status
+            });
 
         }
 
