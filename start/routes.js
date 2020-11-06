@@ -37,7 +37,7 @@ Route.get('/users/:id/actions/', 'UserController.showActions').middleware(['auth
 Route.get('/units', 'UnitController.index')
 
 Route.post('/units', 'UnitController.create').middleware(['auth:jwt'])
-Route.get('/units/:id', 'UnitController.show').middleware(['auth:jwt'])
+Route.get('/units/:id', 'UnitController.show')
 Route.delete('/units/:id', 'UnitController.delete').middleware(['auth:jwt'])
 Route.put('/units/:id', 'UnitController.update').middleware(['auth:jwt'])
 Route.post('/units/:id/adm_structure', 'UnitController.addAdmStructure').middleware(['auth:jwt'])
