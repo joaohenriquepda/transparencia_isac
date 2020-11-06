@@ -5,7 +5,7 @@ const Logger = use('Logger')
 
 class SessionController {
 
-    async create({ request, auth }) {
+    async create({ request, auth, response }) {
         Logger.info("Login System");
 
         try {
@@ -31,22 +31,25 @@ class SessionController {
             return token
 
         } catch (error) {
-            Logger.error(error)
+            Logger.error(error.message)
+            
+            let status = error.status;
+            if (status === undefined) {
+                status = 500
+            }
+            
             const { email } = request.all()
+
             LogAction.create({
                 description: `O email ${email} não conseguiu logar no sistema ${error.message}`,
                 location: "",
                 ip: "192.0.0.1"
             })
-            Logger.error(error)
-            let status = error.status;
-            if (status === undefined) {
-                status = 500
-            }
-
+ 
             return response.status(status).json({
-                message: error,
+                message: error.message,
                 status: status
+
             });
 
         }
