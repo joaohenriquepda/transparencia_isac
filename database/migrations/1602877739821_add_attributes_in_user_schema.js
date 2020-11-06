@@ -6,7 +6,6 @@ const Schema = use('Schema')
 class AddAttributesInUserSchema extends Schema {
   up () {
     this.table('users', (table) => {
-      // alter table
       table.string('role', 2)
       table.string('job', 50)
       table.string('cellphone', 20)
