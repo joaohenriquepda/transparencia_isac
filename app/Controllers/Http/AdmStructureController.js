@@ -7,11 +7,11 @@ const AdmStructure = use('App/Models/AdmStructure')
 class AdmStructureController {
 
 
-    async update({ request, response, params }) {
+    async update({ request, response, params, auth }) {
 
         Logger.info("Update Administrative Struture");
         try {
-
+            await auth.check();
             const data = request.all();
             const adm_structure = await AdmStructure.find(params.id);
             await adm_structure.merge(data);
@@ -21,20 +21,24 @@ class AdmStructureController {
 
         } catch (error) {
             Logger.error(error)
-            return response.status(error.status).json({
-                error: {
-                    message: "Error when UPDATE Administrative Struture",
-                    error: error.message
-                }
-            })
+            let status = error.status;
+            if (status === undefined) {
+                status = 500
+            }
+
+            return response.status(status).json({
+                message: error,
+                status: status
+            });
         }
     }
 
-    async delete({ request, response, params }) {
+    async delete({ request, response, params, auth }) {
 
         Logger.info("Destroy Administrative Struture");
         try {
 
+            await auth.check();
             const adm_structure = await AdmStructure.find(params.id);
             await adm_structure.delete();
 
@@ -44,12 +48,15 @@ class AdmStructureController {
 
         } catch (error) {
             Logger.error(error)
-            return response.status(error.status).json({
-                error: {
-                    message: "Error when UPDATE Administrative Struture",
-                    error: error.message
-                }
-            })
+            let status = error.status;
+            if (status === undefined) {
+                status = 500
+            }
+
+            return response.status(status).json({
+                message: error,
+                status: status
+            });
         }
     }
 
