@@ -50,6 +50,7 @@ Route.post('/units/:id/server', 'UnitController.addServer').middleware(['auth:jw
 Route.post('/units/:id/mat_med', 'UnitController.addMatMed').middleware(['auth:jwt'])
 Route.post('/units/:id/accountability', 'UnitController.addAccountability').middleware(['auth:jwt'])
 Route.post('/units/:id/accounting_doc', 'UnitController.addAccountingDoc').middleware(['auth:jwt'])
+Route.post('/units/:id/politics', 'UnitController.addPolitics').middleware(['auth:jwt'])
 
 // Administrative Structure
 Route.put('/adm_structure/:id', 'AdmStructureController.update').middleware(['auth:jwt'])
@@ -78,6 +79,10 @@ Route.delete('/mat_med/:id', 'MatMedController.delete').middleware(['auth:jwt'])
 // Person
 Route.put('/person/:id', 'PersonController.update').middleware(['auth:jwt'])
 Route.delete('/person/:id', 'PersonController.delete').middleware(['auth:jwt'])
+
+// Person
+Route.put('/politics/:id', 'PoliticController.update').middleware(['auth:jwt'])
+Route.delete('/politics/:id', 'PoliticController.delete').middleware(['auth:jwt'])
 
 // PublicCall
 Route.put('/public_call/:id', 'PublicCallController.update').middleware(['auth:jwt'])

@@ -123,6 +123,7 @@ class UnitController {
       unit.mat_med = await unit.mat_med().fetch()
       unit.accountability = await unit.accountability().fetch()
       unit.accounting_docs = await unit.accounting_docs().fetch()
+      unit.politics = await unit.politics().fetch()
 
       return unit
 
@@ -279,6 +280,27 @@ class UnitController {
       return response.status(error.status).json({
         error: {
           message: "Error when Create People",
+          error: error.message
+        }
+      })
+    }
+  }
+
+
+  async addPolitics({ params, request, response }) {
+    Logger.info("Add Politic");
+    try {
+      const data = request.all();
+
+      const unit = await Unit.find(params.id);
+      unit.politics().create(data);
+      return unit;
+
+    } catch (error) {
+      Logger.error(error)
+      return response.status(error.status).json({
+        error: {
+          message: "Error when Create politics",
           error: error.message
         }
       })
