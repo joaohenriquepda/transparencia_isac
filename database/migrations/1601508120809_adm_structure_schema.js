@@ -17,7 +17,7 @@ class AdmStructureSchema extends Schema {
   }
 
   down () {
-    this.drop('adm_strutures')
+    this.drop('adm_structures')
   }
 }
 
