@@ -70,7 +70,7 @@ Route.delete('/contact/:id', 'ContactController.delete').middleware(['auth:jwt']
 
 // Management Contract
 Route.put('/management_contract/:id', 'ManagementContractController.update').middleware(['auth:jwt'])
-Route.delete('//:id', 'Controller.delete').middleware(['auth:jwt'])
+Route.delete('/management_contract/:id', 'Controller.delete').middleware(['auth:jwt'])
 
 // MatMed
 Route.put('/mat_med/:id', 'MatMedController.update').middleware(['auth:jwt'])
