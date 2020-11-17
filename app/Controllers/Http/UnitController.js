@@ -413,6 +413,7 @@ class UnitController {
       await unit.contractThirdParties().create(data);
 
       await LogAction.create({
+        id: await LogAction.query().last() + 1,
         description: `Criou um Contrato com terceiros para ${unit.name} com sucesso`,
         location: "",
         ip: "192.0.0.1",
