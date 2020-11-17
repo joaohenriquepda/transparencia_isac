@@ -169,8 +169,8 @@ class UnitController {
       unit.accountability = await unit.accountability().fetch();
       unit.accounting_docs = await unit.accounting_docs().fetch();
       unit.politics = await unit.politics().fetch();
-      unit.contractThirdParties = await unit.contractThirdParties.fetch();
-      unit.historic = await unit.historic.fetch();
+      unit.contractThirdParties = await unit.contractThirdParties().fetch();
+      unit.historic = await unit.historic().fetch();
 
       return unit
 
