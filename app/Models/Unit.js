@@ -16,45 +16,48 @@ class Unit extends Model {
         return this.hasMany('App/Models/PublicCall')
     }
 
-    selection_approval(){
+    selection_approval() {
         return this.hasMany('App/Models/SelectionApproval')
     }
-    management_contracts(){
+    management_contracts() {
         return this.hasMany('App/Models/ManagementContract')
     }
 
-    selective_proccess(){
+    selective_proccess() {
         return this.hasMany('App/Models/SelectiveProccess')
     }
 
-    people(){
+    people() {
         return this.hasMany('App/Models/Person')
     }
 
-    servers(){
+    servers() {
         return this.hasMany('App/Models/Server')
     }
 
-    mat_med(){
+    mat_med() {
         return this.hasMany('App/Models/MatMed')
     }
 
-    accountability(){
+    accountability() {
         return this.hasMany('App/Models/Accountability')
     }
 
-    accounting_docs(){
+    accounting_docs() {
         return this.hasMany('App/Models/AccountingDoc')
     }
 
-    politics(){
+    politics() {
         return this.hasMany('App/Models/Politic')
     }
 
-    contractThirdParties(){
+    contractThirdParties() {
         return this.hasMany('App/Models/ContractThirdParty')
     }
 
+    historic() {
+        return this.hasMany('App/Models/Historic')
+    }
 
 }
 

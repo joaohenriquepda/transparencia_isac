@@ -1,11 +1,28 @@
 'use strict'
 
-const Logger = use('Logger')
-const Unit = use('App/Models/Unit')
+// const  = use('App/Models/')
 
-const ManagementContract = use('App/Models/ManagementContract')
-const ContractThirdParty = use('App/Models/ContractThirdParty')
+const Unit = use('App/Models/Unit')
+const Logger = use('Logger')
 const LogAction = use('App/Models/LogAction')
+const Historic = use('App/Models/Historic')
+const Contact = use('App/Models/Contact')
+const PublicCall = use('App/Models/PublicCall')
+const SelectionApproval = use('App/Models/SelectionApproval')
+const ManagementContract = use('App/Models/ManagementContract')
+const SelectiveProccess = use('App/Models/SelectiveProccess')
+const ContractThirdParty = use('App/Models/ContractThirdParty')
+const People = use('App/Models/People')
+const Politic = use('App/Models/Politic')
+const Server = use('App/Models/Server')
+const MatMed = use('App/Models/MatMed')
+const Accountability = use('App/Models/Accountability')
+const AccountingDoc = use('App/Models/AccountingDoc')
+
+
+
+
+
 
 class UnitController {
 
@@ -44,12 +61,25 @@ class UnitController {
       const last = await Unit.query().last()
       data.id = last.id + 1
 
+      // Status 0 needs approval
+      // Status 1 for active
+      // Status 2 for inactive
+      data.status = 0;
+
       const unit = await Unit.create(data);
 
       await LogAction.create({
         description: `Criou a ${unit.name} com sucesso`,
         location: "",
         ip: "192.0.0.1",
+        user_id: auth.id
+      })
+
+      await Historic.create({
+        description: `A unidade ${unit.name} foi criada com sucesso`,
+        location: "",
+        ip: "192.0.0.1",
+        unit_id: unit.id,
         user_id: auth.id
       })
 
@@ -94,6 +124,14 @@ class UnitController {
         user_id: auth.id
       })
 
+      await Historic.create({
+        description: `A unidade ${unit.name} teve informação atualizada`,
+        location: "",
+        ip: "192.0.0.1",
+        unit_id: unit.id,
+        user_id: auth.id
+      })
+
       return unit
 
     } catch (error) {
@@ -125,12 +163,14 @@ class UnitController {
       unit.selection_approval = await unit.selection_approval().fetch()
       unit.management_contracts = await unit.management_contracts().fetch()
       unit.selective_proccess = await unit.selective_proccess().fetch()
-      unit.people = await unit.people().fetch()
-      unit.servers = await unit.servers().fetch()
-      unit.mat_med = await unit.mat_med().fetch()
-      unit.accountability = await unit.accountability().fetch()
-      unit.accounting_docs = await unit.accounting_docs().fetch()
-      unit.politics = await unit.politics().fetch()
+      unit.people = await unit.people().fetch();
+      unit.servers = await unit.servers().fetch();
+      unit.mat_med = await unit.mat_med().fetch();
+      unit.accountability = await unit.accountability().fetch();
+      unit.accounting_docs = await unit.accounting_docs().fetch();
+      unit.politics = await unit.politics().fetch();
+      unit.contractThirdParties = await unit.contractThirdParties.fetch();
+      unit.historic = await unit.historic.fetch();
 
       return unit
 
@@ -151,8 +191,15 @@ class UnitController {
       auth.check();
       const data = request.all();
       const unit = await Unit.find(params.id);
-      unit.adm_structure().create(data);
 
+      const last = await AdmStructure.query().last()
+      if (last === null) {
+        data.id = 1;
+      } else {
+        data.id = last.id + 1
+      }
+
+      unit.adm_structure().create(data);
 
       await LogAction.create({
         description: `Criou a Estrutura administrativa para ${unit.name} com sucesso`,
@@ -183,6 +230,14 @@ class UnitController {
       const data = request.all();
 
       const unit = await Unit.find(params.id);
+
+      const last = await Contact.query().last()
+      if (last === null) {
+        data.id = 1;
+      } else {
+        data.id = last.id + 1
+      }
+
       await unit.contacts().create(data);
 
       await LogAction.create({
@@ -213,6 +268,14 @@ class UnitController {
       const data = request.all();
 
       const unit = await Unit.find(params.id);
+
+      const last = await PublicCall.query().last()
+      if (last === null) {
+        data.id = 1;
+      } else {
+        data.id = last.id + 1
+      }
+
       unit.public_call().create(data);
       return unit;
 
@@ -236,8 +299,11 @@ class UnitController {
       const unit = await Unit.find(params.id);
 
       const last = await SelectionApproval.query().last()
-      data.id = last.id + 1
-
+      if (last === null) {
+        data.id = 1;
+      } else {
+        data.id = last.id + 1
+      }
       unit.selection_approval().create(data);
 
       await LogAction.create({
@@ -306,6 +372,14 @@ class UnitController {
       const data = request.all();
 
       const unit = await Unit.find(params.id);
+
+      const last = await SelectiveProccess.query().last()
+      if (last === null) {
+        data.id = 1;
+      } else {
+        data.id = last.id + 1
+      }
+
       unit.selective_proccess().create(data);
       return unit;
 
@@ -366,6 +440,14 @@ class UnitController {
       const data = request.all();
 
       const unit = await Unit.find(params.id);
+
+      const last = await People.query().last()
+      if (last === null) {
+        data.id = 1;
+      } else {
+        data.id = last.id + 1
+      }
+
       unit.people().create(data);
       return unit;
 
@@ -387,6 +469,14 @@ class UnitController {
       const data = request.all();
 
       const unit = await Unit.find(params.id);
+
+      const last = await Politic.query().last()
+      if (last === null) {
+        data.id = 1;
+      } else {
+        data.id = last.id + 1
+      }
+
       unit.politics().create(data);
       return unit;
 
@@ -407,6 +497,14 @@ class UnitController {
       const data = request.all();
 
       const unit = await Unit.find(params.id);
+
+      const last = await Server.query().last()
+      if (last === null) {
+        data.id = 1;
+      } else {
+        data.id = last.id + 1
+      }
+
       unit.server().create(data);
       return unit;
 
@@ -427,6 +525,14 @@ class UnitController {
       const data = request.all();
 
       const unit = await Unit.find(params.id);
+
+      const last = await MatMed.query().last()
+      if (last === null) {
+        data.id = 1;
+      } else {
+        data.id = last.id + 1
+      }
+
       unit.mat_med().create(data);
       return unit;
 
@@ -448,6 +554,14 @@ class UnitController {
       const data = request.all();
 
       const unit = await Unit.find(params.id);
+
+      const last = await Accountability.query().last()
+      if (last === null) {
+        data.id = 1;
+      } else {
+        data.id = last.id + 1
+      }
+
       unit.accountability().create(data);
       return unit;
 
@@ -468,6 +582,14 @@ class UnitController {
       const data = request.all();
 
       const unit = await Unit.find(params.id);
+
+      const last = await AccountingDoc.query().last()
+      if (last === null) {
+        data.id = 1;
+      } else {
+        data.id = last.id + 1
+      }
+
       unit.accounting_docs().create(data);
       return unit;
 
@@ -482,35 +604,33 @@ class UnitController {
     }
   }
 
-  /**
-   * Delete a unit with id.
-   * DELETE units/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
   async delete({ params, request, response }) {
 
     Logger.info("Destroy Unit");
     try {
 
       const unit = await Unit.find(params.id);
+      // Status 0 needs approval
+      // Status 1 for active
+      // Status 2 for inactive
 
-      await unit.adm_structure().delete();
-      await unit.contacts().delete();
-      await unit.public_call().delete();
-      await unit.selection_approval().delete();
-      await unit.selection_approval().delete();
-      await unit.management_contracts().delete();
-      await unit.selective_proccess().delete();
-      await unit.people().delete();
-      await unit.servers().delete();
-      await unit.mat_med().delete();
-      await unit.accountability().delete();
-      await unit.accounting_docs().delete();
+      unit.merge({ status: 2 })
+      unit.save();
 
-      await unit.delete();
+      // await unit.adm_structure().delete();
+      // await unit.contacts().delete();
+      // await unit.public_call().delete();
+      // await unit.selection_approval().delete();
+      // await unit.selection_approval().delete();
+      // await unit.management_contracts().delete();
+      // await unit.selective_proccess().delete();
+      // await unit.people().delete();
+      // await unit.servers().delete();
+      // await unit.mat_med().delete();
+      // await unit.accountability().delete();
+      // await unit.accounting_docs().delete();
+
+      // await unit.delete();
 
       return response.status(200).json({
         message: "Success",

@@ -1,92 +1,83 @@
 'use strict'
-
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
-
-/**
- * Resourceful controller for interacting with contractthirdparties
- */
+const ContractThirdParty = use('App/Models/ContractThirdParty')
 class ContractThirdPartyController {
-  /**
-   * Show a list of all contractthirdparties.
-   * GET contractthirdparties
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async index ({ request, response, view }) {
+
+
+  async update({ request, response, params, auth }) {
+
+    Logger.info("Update ContractThirdParty");
+    try {
+
+      await auth.check();
+
+      const data = request.all();
+      const contractThirdParty = await ContractThirdParty.find(params.id);
+
+
+      await contractThirdParty.merge(data);
+      await contractThirdParty.save();
+
+
+      await LogAction.create({
+        description: `Atualizou informações de contratos terceirizados para unidade com id ${contractThirdParty.unit_id}`,
+        location: "",
+        user_id: auth.id
+      })
+
+      await Historic.create({
+        description: `A unidade teve informações de contratos com terceirizados atualizadas`,
+        location: "",
+        unit_id: contractThirdParty.unit_id,
+        user_id: auth.id
+      })
+
+      return contractThirdParty;
+
+    } catch (error) {
+      Logger.error(error)
+      return response.status(error.status).json({
+        error: {
+          message: "Error when UPDATE Contract",
+          error: error.message
+        }
+      })
+    }
   }
 
-  /**
-   * Render a form to be used for creating a new contractthirdparty.
-   * GET contractthirdparties/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
+  async delete({ request, response, params }) {
 
-  /**
-   * Create/save a new contractthirdparty.
-   * POST contractthirdparties
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async store ({ request, response }) {
-  }
+    Logger.info("Destroy ContractThirdParty");
+    try {
 
-  /**
-   * Display a single contractthirdparty.
-   * GET contractthirdparties/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
-  }
+      const contractThirdParty = await ContractThirdParty.find(params.id);
 
-  /**
-   * Render a form to update an existing contractthirdparty.
-   * GET contractthirdparties/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
+      await LogAction.create({
+        description: `Removeu a informação ${contractThirdParty.name} para unidade com id ${contractThirdParty.unit_id} `,
+        location: "",
+        user_id: auth.id
+      })
 
-  /**
-   * Update contractthirdparty details.
-   * PUT or PATCH contractthirdparties/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
+      await Historic.create({
+        description: `Removeu a informação ${contractThirdParty.name} para unidade com id ${contractThirdParty.unit_id}`,
+        location: "",
+        user_id: auth.id
+      })
 
-  /**
-   * Delete a contractthirdparty with id.
-   * DELETE contractthirdparties/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy ({ params, request, response }) {
+      await contractThirdParty.delete();
+
+      return response.status(200).json({
+        message: "Success",
+      })
+
+    } catch (error) {
+      Logger.error(error)
+      return response.status(error.status).json({
+        error: {
+          message: "Error when delete ContractThirdParty",
+          error: error.message
+        }
+      })
+    }
   }
 }
 

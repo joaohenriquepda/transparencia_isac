@@ -74,7 +74,6 @@ Route.delete('/contact/:id', 'ContactController.delete').middleware(['auth:jwt']
 Route.put('/contract_third_party/:id', 'ContractThirdPartyController.update').middleware(['auth:jwt'])
 Route.delete('/contract_third_party/:id', 'ContractThirdPartyController.delete').middleware(['auth:jwt'])
 
-
 // Management Contract
 Route.put('/management_contract/:id', 'ManagementContractController.update').middleware(['auth:jwt'])
 Route.delete('/management_contract/:id', 'Controller.delete').middleware(['auth:jwt'])
