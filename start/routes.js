@@ -51,6 +51,8 @@ Route.post('/units/:id/mat_med', 'UnitController.addMatMed').middleware(['auth:j
 Route.post('/units/:id/accountability', 'UnitController.addAccountability').middleware(['auth:jwt'])
 Route.post('/units/:id/accounting_doc', 'UnitController.addAccountingDoc').middleware(['auth:jwt'])
 Route.post('/units/:id/politics', 'UnitController.addPolitics').middleware(['auth:jwt'])
+Route.post('/units/:id/contract_third_party', 'UnitController.addContractThirdParty').middleware(['auth:jwt'])
+
 
 // Administrative Structure
 Route.put('/adm_structure/:id', 'AdmStructureController.update').middleware(['auth:jwt'])
@@ -67,6 +69,11 @@ Route.delete('/accounting_doc/:id', 'AccountingDocController.delete').middleware
 // Contract
 Route.put('/contact/:id', 'ContactController.update').middleware(['auth:jwt'])
 Route.delete('/contact/:id', 'ContactController.delete').middleware(['auth:jwt'])
+
+//Contract ThirdParty
+Route.put('/contract_third_party/:id', 'ContractThirdPartyController.update').middleware(['auth:jwt'])
+Route.delete('/contract_third_party/:id', 'ContractThirdPartyController.delete').middleware(['auth:jwt'])
+
 
 // Management Contract
 Route.put('/management_contract/:id', 'ManagementContractController.update').middleware(['auth:jwt'])

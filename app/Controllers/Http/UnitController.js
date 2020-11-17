@@ -2,6 +2,9 @@
 
 const Logger = use('Logger')
 const Unit = use('App/Models/Unit')
+
+const ManagementContract = use('App/Models/ManagementContract')
+const ContractThirdParty = use('App/Models/ContractThirdParty')
 const LogAction = use('App/Models/LogAction')
 
 class UnitController {
@@ -29,7 +32,7 @@ class UnitController {
     Logger.info("Create new Unit");
     try {
       await auth.check();
-      LogAction.create({
+      await LogAction.create({
         description: `Solicitou Criação de unidade`,
         location: "",
         ip: "192.0.0.1",
@@ -37,9 +40,13 @@ class UnitController {
       })
 
       const data = request.all();
+
+      const last = await Unit.query().last()
+      data.id = last.id + 1
+
       const unit = await Unit.create(data);
 
-      LogAction.create({
+      await LogAction.create({
         description: `Criou a ${unit.name} com sucesso`,
         location: "",
         ip: "192.0.0.1",
@@ -138,13 +145,21 @@ class UnitController {
     }
   }
 
-  async addAdmStructure({ params, request, response, view }) {
+  async addAdmStructure({ params, request, response, auth }) {
     Logger.info("Add Administrative Struture");
     try {
+      auth.check();
       const data = request.all();
-
       const unit = await Unit.find(params.id);
       unit.adm_structure().create(data);
+
+
+      await LogAction.create({
+        description: `Criou a Estrutura administrativa para ${unit.name} com sucesso`,
+        location: "",
+        ip: "192.0.0.1",
+        user_id: auth.id
+      })
 
       return unit;
 
@@ -161,13 +176,22 @@ class UnitController {
 
   }
 
-  async addContacts({ params, request, response, view }) {
+  async addContacts({ params, request, response, auth }) {
     Logger.info("Add Contacts");
     try {
+      await auth.check();
       const data = request.all();
 
       const unit = await Unit.find(params.id);
-      unit.contacts().create(data);
+      await unit.contacts().create(data);
+
+      await LogAction.create({
+        description: `Criou um contato para ${unit.name} com sucesso`,
+        location: "",
+        ip: "192.0.0.1",
+        user_id: auth.id
+      })
+
       return unit;
 
     } catch (error) {
@@ -210,7 +234,18 @@ class UnitController {
       const data = request.all();
 
       const unit = await Unit.find(params.id);
+
+      const last = await SelectionApproval.query().last()
+      data.id = last.id + 1
+
       unit.selection_approval().create(data);
+
+      await LogAction.create({
+        description: `Criou um Contrato de Gerenciamento para ${unit.name} com sucesso`,
+        location: "",
+        ip: "192.0.0.1",
+        user_id: auth.id
+      })
       return unit;
 
     } catch (error) {
@@ -225,13 +260,32 @@ class UnitController {
   }
 
 
-  async addManagementContracts({ params, request, response, view }) {
+  async addManagementContracts({ params, request, response, auth }) {
     Logger.info("Add Management Contracts");
     try {
+
+      auth.check();
+
       const data = request.all();
 
       const unit = await Unit.find(params.id);
+
+      const last = await ManagementContract.query().last()
+      if (last === null) {
+        data.id = 1;
+      } else {
+        data.id = last.id + 1
+      }
+
       unit.management_contracts().create(data);
+
+      await LogAction.create({
+        description: `Criou um Contrato de Gerenciamento para ${unit.name} com sucesso`,
+        location: "",
+        ip: "192.0.0.1",
+        user_id: auth.id
+      })
+
       return unit;
 
     } catch (error) {
@@ -265,6 +319,46 @@ class UnitController {
       })
     }
   }
+
+  async addContractThirdParty({ params, request, response, auth }) {
+    Logger.info("Add Contact Third Party");
+    try {
+
+      auth.check();
+      const data = request.all();
+
+      const unit = await Unit.find(params.id);
+
+      const last = await ContractThirdParty.query().last()
+      if (last === null) {
+        data.id = 1;
+      } else {
+        data.id = last.id + 1
+      }
+
+      await unit.contractThirdParties().create(data);
+
+      await LogAction.create({
+        description: `Criou um Contrato com terceiros para ${unit.name} com sucesso`,
+        location: "",
+        ip: "192.0.0.1",
+        user_id: auth.id
+      })
+
+      return unit;
+
+    } catch (error) {
+      Logger.error(error)
+      return response.status(error.status).json({
+        error: {
+          message: "Error when Create People",
+          error: error.message
+        }
+      })
+    }
+  }
+
+
 
   async addPeople({ params, request, response, view }) {
     Logger.info("Add People");

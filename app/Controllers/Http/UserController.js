@@ -93,6 +93,15 @@ class UserController {
 
             user.merge(data);
             user.save();
+
+            await LogAction.create({
+                description: `Alterou as informações a ${user.name} com identificador ${user.id} com sucesso`,
+                location: "",
+                ip: "192.0.0.1",
+                user_id: auth.id
+              })     
+
+
         } catch (error) {
             Logger.error(error)
 
@@ -108,14 +117,24 @@ class UserController {
         }
     }
 
-    async delete({ response, params }) {
+    async delete({ response, params, auth }) {
 
         Logger.info('Remove user');
 
         try {
             await auth.check();
             const user = await User.find(params.id);
-            await user.delete()
+
+            user.merge({ status: 0 });
+            await user.save();
+
+
+            await LogAction.create({
+                description: `Alterou o status para inativo de ${user.name} com identificador ${user.id} com sucesso`,
+                location: "",
+                ip: "192.0.0.1",
+                user_id: auth.id
+              })
 
         } catch (error) {
             Logger.error(error)
@@ -162,11 +181,10 @@ class UserController {
     async recoveryPassword({ auth, response, request, params }) {
 
         Logger.info("Recovery Password")
-        LogAction.create()
 
         try {
             const data = request.all()
-
+            console.log(data);
             LogAction.create({ description: `O email ${data.email} acessou para recuperar a senha`, location: "", ip: "192.0.0.1" })
             const user = await User.findByOrFail("email", data.email);
             const password = await crypto.randomBytes(10).toString('hex')

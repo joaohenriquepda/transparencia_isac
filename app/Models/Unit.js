@@ -51,6 +51,10 @@ class Unit extends Model {
         return this.hasMany('App/Models/Politic')
     }
 
+    contractThirdParties(){
+        return this.hasMany('App/Models/ContractThirdParty')
+    }
+
 
 }
 
